@@ -1,0 +1,44 @@
+
+ aws cognito-idp sign-up \
+   --client-id 2o5500a9brlddfeovrmgskhs45 \
+   --username devilp164@gmail.com \
+   --password Goldberg@2025 \
+   --user-attributes Name=email,Value=devilp164@gmail.com
+ 
+ # Step 2: Confirm the sign-up with the OTP code from your email
+ aws cognito-idp confirm-sign-up \
+   --client-id 2o5500a9brlddfeovrmgskhs45 \
+   --username devilp164@gmail.com \
+   --confirmation-code YOUR_OTP_CODE_HERE
+ 
+ # Step 3: Authenticate and get tokens (including access token with user info)
+ aws cognito-idp initiate-auth \
+   --client-id 2o5500a9brlddfeovrmgskhs45 \
+   --auth-flow USER_PASSWORD_AUTH \
+   --auth-parameters USERNAME=devilp164@gmail.com,PASSWORD=Goldberg@2025
+ 
+ # Step 4: Get user information using the access token from step 3
+ aws cognito-idp get-user \
+   --access-token eyJraWQiOiJvZWl1ZlFqbDFJak5OUFdrQ1JPRUVablo0YmtpRVFoZzhSazVxQ21vY1FFPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0NGY4NzQ0OC02MGIxLTcwNmQtMWI2ZS02NjdmN2YwMWE3YmYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9meWdQbzMxT3giLCJjbGllbnRfaWQiOiIybzU1MDBhOWJybGRkZmVvdnJtZ3NraHM0NSIsIm9yaWdpbl9qdGkiOiI4YTY0YzM2Zi1lYTI5LTQ2YzgtYjAyZC01Yzg2NTI5MmZhN2EiLCJldmVudF9pZCI6IjM1MjdjMDYwLTFiMjQtNDhmOS04Yzc3LWI0ZTA5ZmMzN2U2YyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3NTEwNDI5MDgsImV4cCI6MTc1MTA0NjUwOCwiaWF0IjoxNzUxMDQyOTA4LCJqdGkiOiJlMjFlY2VkYS1jYzZkLTRmMzMtOGI2My0xNzY5YTAwNzgxNTEiLCJ1c2VybmFtZSI6IjQ0Zjg3NDQ4LTYwYjEtNzA2ZC0xYjZlLTY2N2Y3ZjAxYTdiZiJ9.LGvrxfWwLVCtYt7hhqpDZujzUO9bA0e8-Int5P8ERQ0e4DFfB_O33faD756Mnwo8dJPJtnZIgywxAjuTnWwb4yFY0uT_RV6XaLG3DJnqyhNNOKwq3JXhJhlDZ2G91t0ya8svm9SxOk-5JUng_-gNlrN7JBlTq7Vb47874i9EL2udF7CSqua8qLGRiYVeiKCQqeph0fts4_TPQsbnU23VWzdd4d6DpZuG3AUYYGGii_O5Mii-Pj6wWx6Vq3W5kL4YiK2ZDOIpgTn6kHlalDZECQImIAy8TRkhuJrvkB6qEsJAwioDefMCysQSG74xdgy2P_KLt5tm5x_qAqqVf8Nxuw
+
+
+
+# lib-user@MacBookAir IAC % aws cloudformation describe-stacks \
+#     --stack-name cognito-stack \
+#     --query "Stacks[0].Outputs" \
+#     --profile default
+# [
+#     {
+#         "OutputKey": "UserPoolClientId",
+#         "OutputValue": "2o5500a9brlddfeovrmgskhs45",
+#         "Description": "The ID of the Cognito User Pool Client",
+#         "ExportName": "StudyAssistant-UserPoolClient-Id"
+#     },
+#     {
+#         "OutputKey": "UserPoolId",
+#         "OutputValue": "us-east-1_fygPo31Ox",
+#         "Description": "The ID of the Cognito User Pool",
+#         "ExportName": "StudyAssistant-UserPool-Id"
+#     }
+# ]
+# lib-user@MacBookAir IAC % 
