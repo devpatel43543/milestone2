@@ -7,8 +7,8 @@ function Sidebar({ activeTab, setActiveTab, trendingTopics = [] }) {
       {/* Navigation */}
       <div className="bg-white rounded-lg shadow p-6">
         <nav className="space-y-2">
-          <button
-            onClick={() => setActiveTab("feed")}
+          <Link
+            to="/home"
             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
               activeTab === "feed" ? "bg-blue-50 text-blue-600" : "text-slate-600 hover:bg-slate-50"
             }`}
@@ -22,7 +22,7 @@ function Sidebar({ activeTab, setActiveTab, trendingTopics = [] }) {
               />
             </svg>
             <span>Feed</span>
-          </button>
+          </Link>
           <button
             onClick={() => setActiveTab("my-posts")}
             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
@@ -75,7 +75,7 @@ function Sidebar({ activeTab, setActiveTab, trendingTopics = [] }) {
       </div>
 
       {/* Trending Topics */}
-      <div className="bg-white rounded-lg shadow p-6">
+      {/* <div className="bg-white rounded-lg shadow p-6">
         <h3 className="font-semibold text-slate-900 mb-4">Trending Topics</h3>
         <div className="space-y-3">
           {trendingTopics.map((topic, index) => (
@@ -85,7 +85,7 @@ function Sidebar({ activeTab, setActiveTab, trendingTopics = [] }) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -19,7 +19,7 @@ function App() {
       <Route path={frontEndRoutes.LOGIN} element={<ExcludeNavbar Component={Login} />} />
       <Route path={frontEndRoutes.REGISTER} element={<ExcludeNavbar Component={Register} />} />
       <Route path={frontEndRoutes.CONFIRM_OTP} element={<ExcludeNavbar Component={ConfirmOtp} />} />
-      <Route path={frontEndRoutes.CREATE_POST} element={<ExcludeNavbar Component={CreatePost} />} />
+      <Route path={frontEndRoutes.CREATE_POST} element={<IncludeNavbar Component={CreatePost} />} />
     </Routes>
   );
 }
@@ -39,7 +39,9 @@ const IncludeNavbar = ({ Component }) => (
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Sidebar */}
           <Sidebar />
-          <Component />
+          <div className="lg:col-span-3 space-y-6">
+            <Component />
+          </div>
         </div>
       </div>
     </div>
