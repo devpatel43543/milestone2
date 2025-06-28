@@ -1,8 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CloudFormation template for Cognito User Pool and App Client for Study Assistant project.
+Description: CloudFormation template for Cognito User Pool, App Client, DynamoDB, and Post-Confirmation Lambda for Study Assistant project.
 
 Resources:
-  # Cognito User Pool
   StudyAssistantUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -12,6 +11,14 @@ Resources:
           AttributeDataType: String
           Mutable: true
           Required: true
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: role
+          AttributeDataType: String
+          Mutable: true
+          Required: false  # Changed to optional to avoid schema update errors
       Policies:
         PasswordPolicy:
           MinimumLength: 8
@@ -22,8 +29,9 @@ Resources:
         - email
       UsernameAttributes:
         - email
+      LambdaConfig:
+        PostConfirmation: arn:aws:lambda:us-east-1:209469701524:function:PostConfirmationLambda
 
-  # Cognito User Pool Client
   StudyAssistantUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -35,9 +43,20 @@ Resources:
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
-      AccessTokenValidity: 1440   # 24 hours (max)
-      IdTokenValidity: 1440       # 24 hours (max)
-      RefreshTokenValidity: 30    # 30 days (change as needed)
+      AccessTokenValidity: 1440
+      IdTokenValidity: 1440
+      RefreshTokenValidity: 30
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
+  LambdaCognitoPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: arn:aws:lambda:us-east-1:209469701524:function:PostConfirmationLambda
+      Action: lambda:InvokeFunction
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt StudyAssistantUserPool.Arn
 
 Outputs:
   UserPoolId:
@@ -51,5 +70,3 @@ Outputs:
     Value: !Ref StudyAssistantUserPoolClient
     Export:
       Name: StudyAssistant-UserPoolClient-Id
-
-

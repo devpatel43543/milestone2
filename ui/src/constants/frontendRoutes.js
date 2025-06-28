@@ -1,10 +1,9 @@
-const FRONTEND_ROUTES = {
-    LANDING: '/',
-    LOGIN: '/login',
-    REGISTER: '/register',
-    HOME : '/home',
-    INTERVIEW: '/interview',
+const frontEndRoutes = {
+  LOGIN: "/login",
+  REGISTER: "/register",
+  CONFIRM_OTP: "/confirm",
+  HOME: "/home",
+  CREATE_POST: "/create-post",
 };
 
-export default FRONTEND_ROUTES;
-
+export default frontEndRoutes;
