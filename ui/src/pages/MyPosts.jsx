@@ -17,10 +17,11 @@ export default function MyPosts() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  const API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/get-user-posts";
-  const DELETE_API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/delete-post";
-  const DOWNLOAD_API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/download-object";
+  
+  const GATWAY_URL = import.meta.env.VITE_API_GATEWAY_URL;
+  const GET_USER_POSTS = `${GATWAY_URL}/get-user-posts`;
+  const DELETE_POST = `${GATWAY_URL}/delete-post`;
+  const GET_OBJECT = `${GATWAY_URL}/download-object`;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -40,7 +41,7 @@ export default function MyPosts() {
           return;
         }
 
-        const response = await axios.post(API_URL, { userId }, {
+        const response = await axios.post(GET_USER_POSTS, { userId }, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
@@ -113,7 +114,7 @@ export default function MyPosts() {
 
       console.log("Requesting download for postId:", postId);
       
-      const response = await axios.post(DOWNLOAD_API_URL, {
+      const response = await axios.post(GET_OBJECT, {
         postId: postId
       }, {
         headers: {
@@ -203,7 +204,7 @@ export default function MyPosts() {
       }
 
       console.log("Sending delete request for postId:", postId);
-      const response = await axios.post(DELETE_API_URL, {
+      const response = await axios.post(DELETE_POST, {
         data: { postId },
         headers: {
           "Content-Type": "application/json"
