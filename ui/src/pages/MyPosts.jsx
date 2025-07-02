@@ -17,11 +17,11 @@ export default function MyPosts() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
-  const GATWAY_URL = import.meta.env.VITE_API_GATEWAY_URL;
-  const GET_USER_POSTS = `${GATWAY_URL}/get-user-posts`;
-  const DELETE_POST = `${GATWAY_URL}/delete-post`;
-  const GET_OBJECT = `${GATWAY_URL}/download-object`;
+
+  const GATEWAY_URL = import.meta.env.VITE_GATEWAY_URL;
+  const GET_USER_POSTS = `${GATEWAY_URL}/get-user-posts`;
+  const DELETE_POST = `${GATEWAY_URL}/delete-post`;
+  const GET_OBJECT = `${GATEWAY_URL}/download-object`;
 
   useEffect(() => {
     const fetchPosts = async () => {

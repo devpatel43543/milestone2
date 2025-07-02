@@ -4,8 +4,10 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const CreatePost = () => {
-  const GATWAY_URL = import.meta.env.VITE_API_GATEWAY_URL;
-  const CREATE_POST_URL = `${GATWAY_URL}/create-post`;
+  const GATEWAY_URL = import.meta.env.VITE_GATEWAY_URL;
+  console.log("GATEWAY_URL:", GATEWAY_URL);
+  const CREATE_POST_URL = `${GATEWAY_URL}/create-post`;
+  console.log("CREATE_POST_URL:", CREATE_POST_URL);
   const [postContent, setPostContent] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("research");
   const [attachmentFiles, setAttachmentFiles] = useState([]);

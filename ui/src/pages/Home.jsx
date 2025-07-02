@@ -19,10 +19,11 @@ export default function MyPosts() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const GATWAY_URL = import.meta.env.VITE_API_GATEWAY_URL;
-  const GET_ALL_POSTS = `${GATWAY_URL}/get-all-posts`;
-  const GET_OBJECT = `${GATWAY_URL}/download-object`;
-  
+  const GATEWAY_URL = import.meta.env.VITE_GATEWAY_URL;
+  console.log("GATWAY_URL:", GATEWAY_URL);
+  const GET_ALL_POSTS = `${GATEWAY_URL}/get-all-posts`;
+  const GET_OBJECT = `${GATEWAY_URL}/download-object`;
+
   console.log("GET_ALL_POSTS:", GET_ALL_POSTS);
   useEffect(() => {
     const fetchPosts = async () => {
