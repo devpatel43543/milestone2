@@ -374,7 +374,7 @@ const CreatePost = () => {
       // Step 1: Request presigned URL for the first document
       const file = attachmentFiles[0];
       const response = await axios.post(
-        "https://7uk142jn5k.execute-api.us-east-1.amazonaws.com/prod/create-post",
+        "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/create-post",
         {
           userId,
           filename: file.name,
@@ -423,7 +423,7 @@ const CreatePost = () => {
 
       // Step 3: Submit post details to complete creation
       const postResponse = await axios.post(
-        "https://7uk142jn5k.execute-api.us-east-1.amazonaws.com/prod/create-post",
+        "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/create-post",
         {
           userId,
           postContent,

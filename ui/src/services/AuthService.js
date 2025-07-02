@@ -58,7 +58,7 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const REGION = "us-east-1";
-const CLIENT_ID = "4m4d93sjr0ljodch94ue62d8bp"; // Verify after deployment
+const CLIENT_ID = "2s4uh1trvqkhns7qis5s42o3s3"; // Verify after deployment
 
 const client = new CognitoIdentityProviderClient({ region: REGION });
 

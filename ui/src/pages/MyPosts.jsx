@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -19,7 +18,8 @@ export default function MyPosts() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/get-all-posts";
+  const API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/get-user-posts";
+  const DELETE_API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/delete-post";
   const DOWNLOAD_API_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/download-object";
 
   useEffect(() => {
@@ -191,6 +191,41 @@ export default function MyPosts() {
     setEditContent("");
   };
 
+  const handleDelete = async (postId) => {
+    setError("");
+    setDeleteLoading(true);
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token || token === "undefined") {
+        setError("Please sign in to delete posts");
+        navigate(frontEndRoutes.LOGIN);
+        return;
+      }
+
+      console.log("Sending delete request for postId:", postId);
+      const response = await axios.post(DELETE_API_URL, {
+        data: { postId },
+        headers: {
+          "Content-Type": "application/json"
+        },
+      });
+
+      console.log("Delete response:", response.data);
+
+      if (response.status === 200) {
+        setPosts(posts.filter((post) => post.postId !== postId));
+        setShowDeleteModal(null);
+      } else {
+        setError(`Failed to delete post: ${response.data.error || "Unknown error"}`);
+      }
+    } catch (err) {
+      const errorMessage = err.response?.data?.error || err.message;
+      setError(`Error deleting post: ${errorMessage}`);
+      console.error("Delete error:", err.response?.data || err.message);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   const filteredPosts = posts
     .filter((post) => {
@@ -285,6 +320,38 @@ export default function MyPosts() {
                     <span className="text-sm text-slate-500">{formatDate(post.timestamp)}</span>
                   </div>
 
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => handleEdit(post.postId, post.content)}
+                      className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                      title="Edit post"
+                      disabled={deleteLoading}
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => setShowDeleteModal(post.postId)}
+                      className="p-2 text-slate-400 hover:text-red-600 transition-colors"
+                      title="Delete post"
+                      disabled={deleteLoading}
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
                 {editingPost === post.postId ? (
@@ -450,6 +517,46 @@ export default function MyPosts() {
           )}
         </div>
       </div>
+
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-slate-900">Delete Post</h3>
+            </div>
+            <p className="text-sm text-slate-600 mb-6">
+              Are you sure you want to delete this post? This action cannot be undone and will permanently remove the
+              post and all its comments.
+            </p>
+            <div className="flex items-center justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(null)}
+                className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                disabled={deleteLoading}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(showDeleteModal)}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? "Deleting..." : "Delete Post"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

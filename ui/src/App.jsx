@@ -11,6 +11,7 @@ const ConfirmOtp = React.lazy(() => import("./pages/ConfirmOtp")); // <-- New
 const LoadAnimation = React.lazy(() => import("./component/LoadAnimation"));
 const Home = React.lazy(() => import("./pages/Home"));
 const CreatePost = React.lazy(() => import("./pages/CreatePost")); // <-- New
+const MyPosts = React.lazy(() => import("./pages/MyPosts")); // <-- New
 function App() {
   return (
     <Routes>
@@ -20,6 +21,7 @@ function App() {
       <Route path={frontEndRoutes.REGISTER} element={<ExcludeNavbar Component={Register} />} />
       <Route path={frontEndRoutes.CONFIRM_OTP} element={<ExcludeNavbar Component={ConfirmOtp} />} />
       <Route path={frontEndRoutes.CREATE_POST} element={<IncludeNavbar Component={CreatePost} />} />
+      <Route path={frontEndRoutes.MY_POSTS} element={<IncludeNavbar Component={MyPosts} />} />
     </Routes>
   );
 }
