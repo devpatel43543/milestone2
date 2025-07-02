@@ -203,7 +203,7 @@ Resources:
               
               echo "Building Docker image with API URL and Cognito Client ID..."
               docker build \
-                --build-arg VITE_GATWAY_URL=https://${ScholarHubApiGatway}.execute-api.${AWS::Region}.amazonaws.com/prod \
+                --build-arg VITE_GATEWAY_URL=https://${ScholarHubApiGatway}.execute-api.${AWS::Region}.amazonaws.com/prod \
                 --build-arg VITE_COGNITO_CLIENT_ID="6tvbms1723vnkoqgmccrnnoj4u" \
                 -t devkumar640/frontend_milestone2 .
 
