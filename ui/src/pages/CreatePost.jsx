@@ -6,7 +6,8 @@ import axios from "axios";
 const CreatePost = () => {
   const GATEWAY_URL = import.meta.env.VITE_GATEWAY_URL;
   console.log("GATEWAY_URL:", GATEWAY_URL);
-  const CREATE_POST_URL = `${GATEWAY_URL}/create-post`;
+  //const CREATE_POST_URL = `${GATEWAY_URL}/create-post`;
+  const CREATE_POST_URL = "https://fj0raf09t7.execute-api.us-east-1.amazonaws.com/prod/create-post";
   console.log("CREATE_POST_URL:", CREATE_POST_URL);
   const [postContent, setPostContent] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("research");
